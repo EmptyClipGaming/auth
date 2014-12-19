@@ -183,7 +183,28 @@
 
 	  render: function() {
 	    return (
-	      React.createElement("h1", null, "Main")
+	      React.createElement("div", {className: "container", style: {"marginTop": "30px"}}, 
+	        React.createElement("div", {className: "col-md-4 col-md-offset-4"}, 
+	          React.createElement("div", {className: "panel panel-default"}, 
+	            React.createElement("div", {className: "panel-heading"}, 
+	              React.createElement("h3", {className: "panel-title"}, React.createElement("strong", null, "Sign In"))
+	            ), 
+	            React.createElement("div", {className: "panel-body"}, 
+	              React.createElement("form", {role: "form"}, 
+	                React.createElement("div", {className: "form-group"}, 
+	                  React.createElement("label", {htmlFor: "exampleInputEmail1"}, "Username or Email"), 
+	                  React.createElement("input", {type: "email", className: "form-control", placeholder: "Enter Email"})
+	                ), 
+	                React.createElement("div", {className: "form-group"}, 
+	                  React.createElement("label", null, "Password ", React.createElement("a", {href: "/sessions/forgot_password"}, "(forgot password)")), 
+	                  React.createElement("input", {type: "password", className: "form-control", placeholder: "Password"})
+	                ), 
+	                React.createElement("button", {type: "submit", className: "btn btn-sm btn-default"}, "Sign In")
+	              )
+	            )
+	          )
+	        )
+	      )
 	    );
 	  }
 
@@ -7518,7 +7539,7 @@
 	var ReactPropTypeLocationNames = __webpack_require__(78);
 
 	var deprecated = __webpack_require__(45);
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 
 	/**
 	 * Collection of methods that allow declaration and validation of props that are
@@ -7874,9 +7895,9 @@
 
 	var ReactElement = __webpack_require__(31);
 	var ReactInstanceHandles = __webpack_require__(36);
-	var ReactMarkupChecksum = __webpack_require__(119);
+	var ReactMarkupChecksum = __webpack_require__(118);
 	var ReactServerRenderingTransaction =
-	  __webpack_require__(120);
+	  __webpack_require__(119);
 
 	var instantiateReactComponent = __webpack_require__(79);
 	var invariant = __webpack_require__(62);
@@ -9165,7 +9186,7 @@
 
 	"use strict";
 
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 
 	/**
 	 * Similar to invariant but only logs a warning if the condition is not met.
@@ -10787,7 +10808,7 @@
 	"use strict";
 
 	var assign = __webpack_require__(44);
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 	var invariant = __webpack_require__(62);
 	var joinClasses = __webpack_require__(127);
 	var warning = __webpack_require__(61);
@@ -13205,7 +13226,7 @@
 
 	var EventConstants = __webpack_require__(68);
 
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -13267,7 +13288,7 @@
 	"use strict";
 
 	var ReactDOMIDOperations = __webpack_require__(145);
-	var ReactMarkupChecksum = __webpack_require__(119);
+	var ReactMarkupChecksum = __webpack_require__(118);
 	var ReactMount = __webpack_require__(38);
 	var ReactPerf = __webpack_require__(40);
 	var ReactReconcileTransaction = __webpack_require__(146);
@@ -13393,7 +13414,7 @@
 	var Transaction = __webpack_require__(126);
 
 	var assign = __webpack_require__(44);
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 
 	var RESET_BATCHED_UPDATES = {
 	  initialize: emptyFunction,
@@ -15757,44 +15778,6 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 * @providesModule emptyFunction
-	 */
-
-	function makeEmptyFunction(arg) {
-	  return function() {
-	    return arg;
-	  };
-	}
-
-	/**
-	 * This function accepts and discards inputs; it has no side effects. This is
-	 * primarily useful idiomatically for overridable function endpoints which
-	 * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
-	 */
-	function emptyFunction() {}
-
-	emptyFunction.thatReturns = makeEmptyFunction;
-	emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-	emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-	emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-	emptyFunction.thatReturnsThis = function() { return this; };
-	emptyFunction.thatReturnsArgument = function(arg) { return arg; };
-
-	module.exports = emptyFunction;
-
-
-/***/ },
-/* 119 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
 	 * @providesModule ReactMarkupChecksum
 	 */
 
@@ -15836,7 +15819,7 @@
 
 
 /***/ },
-/* 120 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15859,7 +15842,7 @@
 	var Transaction = __webpack_require__(126);
 
 	var assign = __webpack_require__(44);
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 
 	/**
 	 * Provides a `CallbackQueue` queue for collecting `onDOMReady` callbacks
@@ -15950,6 +15933,44 @@
 	PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 	module.exports = ReactServerRenderingTransaction;
+
+
+/***/ },
+/* 120 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2014, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule emptyFunction
+	 */
+
+	function makeEmptyFunction(arg) {
+	  return function() {
+	    return arg;
+	  };
+	}
+
+	/**
+	 * This function accepts and discards inputs; it has no side effects. This is
+	 * primarily useful idiomatically for overridable function endpoints which
+	 * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+	 */
+	function emptyFunction() {}
+
+	emptyFunction.thatReturns = makeEmptyFunction;
+	emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+	emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+	emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+	emptyFunction.thatReturnsThis = function() { return this; };
+	emptyFunction.thatReturnsArgument = function(arg) { return arg; };
+
+	module.exports = emptyFunction;
 
 
 /***/ },
@@ -17637,7 +17658,7 @@
 	var PooledClass = __webpack_require__(69);
 
 	var assign = __webpack_require__(44);
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 	var getEventTarget = __webpack_require__(152);
 
 	/**
@@ -18861,7 +18882,7 @@
 	 * @typechecks
 	 */
 
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 
 	/**
 	 * Upstream version of event listener. Does not take into account specific
@@ -22109,7 +22130,7 @@
 	var ExecutionEnvironment = __webpack_require__(47);
 
 	var createNodesFromMarkup = __webpack_require__(192);
-	var emptyFunction = __webpack_require__(118);
+	var emptyFunction = __webpack_require__(120);
 	var getMarkupWrap = __webpack_require__(193);
 	var invariant = __webpack_require__(62);
 

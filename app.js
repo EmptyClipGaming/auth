@@ -23,6 +23,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var stormpath = require("stormpath");
+
+app.use(function(req, res, next) {
+  //TODO: PUT KEY HERE OMG!
+  var client = new stormpath.Client({apiKey: key});
+  client.getApplications({name:"Empty Clip Gaming"}, function(err, applications) {
+    if (err) throw err;
+
+    req.stormpath = applications.items[0];
+    next();
+  });
+});
+
+
 app.use('/api', api);
 
 /**

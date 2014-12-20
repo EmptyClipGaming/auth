@@ -6,11 +6,16 @@ var DefaultRoute = Router.DefaultRoute;
 var NotFoundRoute = Router.NotFoundRoute;
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
+var Fluxxor = require("fluxxor");
+
+var FluxMixin = Fluxxor.FluxMixin(React);
 
 var Header = require("./shared/Header.jsx");
 var Login = require("./components/Login/Main.jsx");
 
 var Application = React.createClass({
+  mixins: [FluxMixin],
+
   render: function() {
     return (
       <div className="application">

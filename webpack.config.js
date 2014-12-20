@@ -8,5 +8,6 @@ module.exports = {
     loaders: [
       { test: /\.jsx$/, loader: "jsx-loader"}
     ]
-  }
+  },
+  devtool: "inline-source-map"
 };

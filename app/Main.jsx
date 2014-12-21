@@ -12,6 +12,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 
 var Header = require("./shared/Header.jsx");
 var Login = require("./components/Login/Main.jsx");
+var Register = require("./components/Register/Main.jsx");
 
 var Application = React.createClass({
   mixins: [FluxMixin],
@@ -45,6 +46,7 @@ var routes = (
     <DefaultRoute handler={Login} />
     <Route name="login" path="/" handler={Login} />
     <Route name="dashboard" handler={Dashboard} />
+    <Route name="register" path="/register" handler={Register} />
     <NotFoundRoute handler={NotFound} />
   </Route>
 );

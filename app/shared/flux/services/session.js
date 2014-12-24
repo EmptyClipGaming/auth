@@ -16,6 +16,20 @@ var session = {
         });
     });
   },
+
+  register: function(user) {
+    return new Promise(function(resolve, reject) {
+      request
+        .post("/api/register")
+        .send(user)
+        .end(function(error, results) {
+          if (error) return reject(true);
+          if (!results.ok) return reject(true);
+
+          return resolve(results.body);
+        });
+    });
+  }
 };
 
 module.exports = session;

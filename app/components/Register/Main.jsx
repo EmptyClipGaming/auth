@@ -6,6 +6,7 @@ var classSet = React.addons.classSet;
 var FormItems = require("./FormItems.jsx");
 
 var TextInput = FormItems.TextInput;
+var PasswordInput = FormItems.PasswordInput;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -18,80 +19,31 @@ var Main = React.createClass({
     var store = flux.store("SessionStore");
 
     return {
-      first_name: {
-        value: "",
-        valid: null
-      },
-      last_name: {
-        value: "",
-        valid: null
-      },
-      display_name: {
-        value: "",
-        valid: null
-      },
-      email: {
-        value: "",
-        valid: null
-      },
-      password: {
-        value: "",
-        valid: null
-      },
-      password_confirmation: {
-        value: "",
-        valid: null
-      }
+      error: store.error || (this.state && this.state.error) || false,
+      error_message: ""
     };
   },
 
-  _validations: {
-    first_name: function() {
-      return "You Done Goofed";
-    },
-    last_name: function() {
-      return true;
-    },
-    display_name: function() {
-      return true;
-    },
-    email: function() {
-      return true;
-    },
-    password: function() {
-      return true;
-    },
-    password_confirmation: function() {
-      return true;
-    }
+  validatePasswordConfirmation: function() {
+    return this.refs.password.state.value === this.refs.password_confirmation.state.value || "Passwords don't match";
   },
 
   handleSubmit: function(e) {
     e.preventDefault();
-    console.log(this.refs);
+    var error = false;
+    var user = {};
     for (var key in this.refs) {
       if (!this.refs.hasOwnProperty(key)) continue;
-      console.log(this.refs[key]);
+      user[key] = this.refs[key].state.value;
+      this.refs[key].validate();
+      if (this.refs[key].state.errors !== null) error = true;
     }
-    return this.setState({error: false});
-  },
 
-  handleBlur: function(event) {
-    var fieldState = {};
-    fieldState[event.target.id] = {
-      valid: {$set: this._validations[event.target.id]()}
-    };
-    var newState = React.addons.update(this.state, fieldState);
-    this.setState(newState);
-  },
+    if (!error) {
+      this.getFlux().actions.register(user);
+    }
 
-  handleChange: function(event) {
-    var fieldState = {};
-    fieldState[event.target.id] = {
-      value: {$set: event.target.value}
-    };
-    var newState = React.addons.update(this.state, fieldState);
-    this.setState(newState);
+    return this.setState({error: error, error_message: "The form has errors"});
   },
 
   render: function() {
@@ -102,32 +54,82 @@ var Main = React.createClass({
             <form onSubmit={this.handleSubmit} role="form">
               <h2>Please Sign Up <small>It's free and always will be.</small></h2>
               <hr className="colorgraph" />
+              { this.state.error ?
+                <div className="alert alert-danger">{this.state.error_message}</div>
+                :
+                null
+              }
               <div className="row">
                 <div className="col-md-6">
-                  <TextInput ref="first_name" placeholder="First Name" tabIndex="1" />
+                  <TextInput 
+                    ref="first_name" 
+                    validate={[
+                      ["presenceOf"],
+                      ["alphanumeric"],
+                      ["min-length", 3],
+                      ["max-length", 15]
+                    ]} 
+                    placeholder="First Name" 
+                    tabIndex="1" />
                 </div>
                 <div className="col-md-6">
-                  <div className={classSet({"form-group": true, "has-feedback": true, "has-success": this.state.last_name.valid, "has-error": typeof this.state.last_name.valid === "string"})}>
-                    <input onBlur={this.handleBlur} onChange={this.handleChange} type="text" ref="last_name" id="last_name" className="form-control input-lg" placeholder="Last Name" tabindex="2" value={this.state.last_name.value} />
-                  </div>
+                  <TextInput
+                    ref="last_name"
+                    validate={[
+                      ["presenceOf"],
+                      ["alphanumeric"],
+                      ["min-length", 3],
+                      ["max-length", 15]
+
+                    ]}
+                    placeholder="Last Name"
+                    tabIndex="2" />
                 </div>
               </div>
-              <div className={classSet({"form-group": true, "has-feedback": true, "has-success": this.state.display_name.valid, "has-error": typeof this.state.display_name.valid === "string"})}>
-                <input onBlur={this.handleBlur} onChange={this.handleChange} type="text" ref="display_name" id="display_name" className="form-control input-lg" placeholder="Display Name" tabindex="3" value={this.state.display_name.value} />
-              </div>
-              <div className={classSet({"form-group": true, "has-feedback": true, "has-success": this.state.email.valid, "has-error": typeof this.state.email.valid === "string"})}>
-                <input onBlur={this.handleBlur} onChange={this.handleChange} type="email" ref="email" id="email" className="form-control input-lg" placeholder="Email Address" tabindex="4" value={this.state.email.value} />
-              </div>
+              <TextInput
+                    ref="display_name"
+                    validate={[
+                      ["presenceOf"],
+                      ["alphanumeric"],
+                      ["min-length", 3],
+                      ["max-length", 15]
+
+                    ]}
+                    placeholder="Display Name"
+                    tabIndex="3" />
+              <TextInput
+                    ref="email"
+                    validate={[
+                      ["presenceOf"],
+                      ["min-length", 3],
+                      ["max-length", 40],
+                      ["format", "email"]
+                    ]}
+                    placeholder="Email Address"
+                    tabIndex="4" />
               <div className="row">
                 <div className="col-md-6">
-                  <div className={classSet({"form-group": true, "has-feedback": true, "has-success": this.state.password.valid, "has-error": typeof this.state.password.valid === "string"})}>
-                    <input onBlur={this.handleBlur} onChange={this.handleChange} type="password" ref="password" id="password" className="form-control input-lg" placeholder="Password" tabindex="5" value={this.state.password.value} />
-                  </div>
+                  <PasswordInput
+                    ref="password"
+                    validate={[
+                      ["presenceOf"],
+                      ["min-length", 5],
+                      ["max-length", 15]
+                    ]}
+                    placeholder="Password"
+                    tabIndex="5" />
                 </div>
                 <div className="col-md-6">
-                  <div className={classSet({"form-group": true, "has-feedback": true, "has-success": this.state.password_confirmation.valid, "has-error": typeof this.state.password_confirmation.valid === "string"})}>
-                    <input onBlur={this.handleBlur} onChange={this.handleChange} type="password" ref="password_confirmation" id="password_confirmation" className="form-control input-lg" placeholder="Confirm Password" tabindex="6" value={this.state.password_confirmation.value} />
-                  </div>
+                  <PasswordInput
+                    ref="password_confirmation"
+                    validate={[
+                      ["presenceOf"],
+                      ["min-length", 5],
+                      ["max-length", 15],
+                      ["custom", this.validatePasswordConfirmation]
+                    ]}
+                    placeholder="Confirmation"
+                    tabIndex="6" />
                 </div>
               </div>
               <div className="row">

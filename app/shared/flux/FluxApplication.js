@@ -21,8 +21,6 @@ var actions = {
       .catch(function(error) {
         this.dispatch(SessionConstants.LOGIN_FAILED, {error: error});
       }.bind(this));
-
-
   },
 
   logout: function() {
@@ -31,6 +29,19 @@ var actions = {
 
   resetPassword: function(username) {
     this.dispatch(SessionConstants.RESET_PASSWORD, {username: username});
+  },
+
+  register: function(user) {
+    this.dispatch(SessionConstants.REGISTER);
+
+    SessionService
+      .register(user)
+      .then(function(user) {
+        this.dispatch(SessionConstants.REGISTER_SUCCESS, {user: user});
+      }.bind(this))
+      .catch(function(error) {
+        this.dispatch(SessionConstants.REGISTER_FAILED, {error: error});
+      }.bind(this));
   },
 };
 

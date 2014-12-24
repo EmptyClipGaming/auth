@@ -2,19 +2,15 @@ var express = require('express');
 var router = express.Router();
 var passport = require("passport")
 
-/* GET users listing. */
-router.get('/', function(req, res) {
+router.post("/register", function(req, res) {
   req.stormpath.createAccount({
-    givenName: "Test",
-    surname: "Test",
-    username: "Test",
-    email: "test123@test.com",
-    password: "tesGt1244443",
-    customData: {
-      favoriteColor: "Blye"
-    }
+    givenName: req.body.first_name,
+    surname: req.body.last_name,
+    username: req.body.display_name,
+    email: req.body.email,
+    password: req.body.password
   }, function(err, account) {
-    if (err) console.error(err);
+    if (err) return res.status(err.status).send(err);
 
     res.send(account);
   });

@@ -14,7 +14,10 @@ var SessionStore = Fluxxor.createStore({
       sessionConstants.LOGIN_SUCCESS, this.onLoginSuccess,
       sessionConstants.LOGIN_FAILED, this.onLoginFailed,
       sessionConstants.LOGOUT, this.onLogout,
-      sessionConstants.RESET_PASSWORD, this.onResetPassword
+      sessionConstants.RESET_PASSWORD, this.onResetPassword,
+      sessionConstants.REGISTER, this.onRegister,
+      sessionConstants.REGISTER_SUCCESS, this.onRegisterSuccess,
+      sessionConstants.REGISTER_FAILED, this.onRegisterFailed
     );
   },
 
@@ -40,6 +43,23 @@ var SessionStore = Fluxxor.createStore({
   onLogout: function(payload) {},
 
   onResetPassword: function(payload) {},
+
+  onRegister: function(payload) {
+    this.loading = true;
+    this.emit("change");
+  },
+  onRegisterSuccess: function(payload) {
+    this.loading = false;
+    this.error = null;
+    this.session = payload.user;
+    this.emit("change");
+  },
+  onRegisterFailed: function(payload) {
+    this.loading = false;
+    this.error = payload.error.message || true;
+    this.session = {};
+    this.emit("change");
+  },
 
 });
 

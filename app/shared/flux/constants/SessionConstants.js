@@ -5,5 +5,8 @@ module.exports = keyMirror({
   LOGIN_SUCCESS: null,
   LOGIN_FAILED: null,
   LOGOUT: null,
-  RESET_PASSWORD: null
+  RESET_PASSWORD: null,
+  REGISTER: null,
+  REGISTER_SUCCESS: null,
+  REGISTER_FAILED: null
 });
